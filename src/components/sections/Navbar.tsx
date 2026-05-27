@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -16,8 +17,11 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       if (window.scrollY > 20) {
         setScrolled(true);
@@ -39,11 +43,11 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2 group cursor-pointer">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-500 flex items-center justify-center shadow-[0_0_20px_rgba(124,58,237,0.4)] group-hover:scale-105 transition-transform duration-300">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-500 flex items-center justify-center shadow-[0_0_20px_rgba(124,58,237,0.2)] dark:shadow-[0_0_20px_rgba(124,58,237,0.4)] group-hover:scale-105 transition-transform duration-300">
               <span className="text-white font-black text-base">E</span>
             </div>
-            <span className="text-white font-bold text-xl tracking-tight">
-              Event<span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">OS</span>
+            <span className="text-foreground font-bold text-xl tracking-tight">
+              Event<span className="bg-gradient-to-r from-purple-500 to-cyan-500 dark:from-purple-400 dark:to-cyan-400 bg-clip-text text-transparent">OS</span>
             </span>
           </a>
 
@@ -53,7 +57,7 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-slate-400 hover:text-white text-sm font-medium transition-colors relative py-1 group"
+                className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors relative py-1 group"
               >
                 {link.name}
                 <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-purple-500 to-cyan-400 transition-all duration-300 group-hover:w-full" />
@@ -61,8 +65,21 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* CTA Buttons */}
+          {/* CTA & Theme toggle */}
           <div className="hidden md:flex items-center gap-4">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="w-9 h-9 rounded-full bg-muted dark:bg-white/5 border border-border dark:border-white/10 flex items-center justify-center text-foreground hover:bg-accent dark:hover:bg-white/10 transition-colors cursor-pointer"
+              aria-label="Toggle Theme"
+            >
+              {mounted && theme === "dark" ? (
+                <Sun className="w-4 h-4 text-amber-500 fill-amber-500/10" />
+              ) : (
+                <Moon className="w-4 h-4 text-indigo-500 fill-indigo-500/10" />
+              )}
+            </button>
+
             <Button variant="outline" size="sm">
               Book Demo
             </Button>
@@ -71,13 +88,28 @@ export default function Navbar() {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-slate-300 hover:text-white focus:outline-none cursor-pointer"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Menu & Toggle wrapper */}
+          <div className="md:hidden flex items-center gap-3">
+            {/* Theme Toggle for Mobile */}
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="w-9 h-9 rounded-full bg-muted dark:bg-white/5 border border-border dark:border-white/10 flex items-center justify-center text-foreground cursor-pointer"
+              aria-label="Toggle Theme"
+            >
+              {mounted && theme === "dark" ? (
+                <Sun className="w-4 h-4 text-amber-500 fill-amber-500/10" />
+              ) : (
+                <Moon className="w-4 h-4 text-indigo-500 fill-indigo-500/10" />
+              )}
+            </button>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-muted-foreground hover:text-foreground focus:outline-none cursor-pointer"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -89,7 +121,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-[70px] z-40 bg-slate-950/95 backdrop-blur-xl border-b border-white/5 py-8 px-6 md:hidden flex flex-col gap-6"
+            className="fixed inset-x-0 top-[70px] z-40 bg-background/95 backdrop-blur-xl border-b border-border py-8 px-6 md:hidden flex flex-col gap-6"
           >
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
@@ -97,7 +129,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-slate-300 hover:text-white text-lg font-medium py-2 border-b border-white/5"
+                  className="text-muted-foreground hover:text-foreground text-lg font-medium py-2 border-b border-border"
                 >
                   {link.name}
                 </a>

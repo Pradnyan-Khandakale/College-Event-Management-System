@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Card } from "@/components/ui/card";
-import { Sparkles, CalendarPlus, ShieldAlert, BadgeCent } from "lucide-react";
+import { Sparkles, CalendarPlus, BadgeCent } from "lucide-react";
 import { motion } from "framer-motion";
 
 const steps = [
@@ -39,10 +39,10 @@ export default function HowItWorks() {
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-20">
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-foreground">
             From Draft to Dispatched in 3 Steps
           </h2>
-          <p className="text-slate-400 mt-4 text-sm sm:text-base">
+          <p className="text-muted-foreground mt-4 text-sm sm:text-base">
             No technical degrees required. Manage ticketing, scan codes, and verify achievements on an intuitive admin deck.
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function HowItWorks() {
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8">
           
           {/* Connecting gradient line (Desktop only) */}
-          <div className="hidden md:block absolute top-[60px] left-[15%] right-[15%] h-[2px] bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 opacity-20 z-0" />
+          <div className="hidden md:block absolute top-[60px] left-[15%] right-[15%] h-[2px] bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 opacity-30 dark:opacity-20 z-0" />
 
           {steps.map((step, idx) => {
             const StepIcon = step.icon;
@@ -64,26 +64,26 @@ export default function HowItWorks() {
                 transition={{ duration: 0.6, delay: idx * 0.15 }}
                 className="relative z-10"
               >
-                <Card glowColor={step.glow as any} className="flex flex-col items-center text-center p-8 bg-slate-950/70 border border-white/5 h-full">
+                <Card glowColor={step.glow as any} className="flex flex-col items-center text-center p-8 h-full">
                   {/* Step Number Bubble */}
-                  <span className="absolute -top-5 left-1/2 -translate-x-1/2 px-3 py-1 bg-slate-950 border border-white/10 rounded-full text-xs font-mono font-bold tracking-widest text-purple-400 select-none">
+                  <span className="absolute -top-5 left-1/2 -translate-x-1/2 px-3 py-1 bg-card border border-border rounded-full text-xs font-mono font-bold tracking-widest text-purple-600 dark:text-purple-400 select-none shadow-sm dark:shadow-none">
                     STEP {step.num}
                   </span>
 
                   {/* Icon */}
                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 mt-2 transition-all duration-300 ${
-                    step.glow === "purple" ? "bg-purple-500/10 text-purple-400" :
-                    step.glow === "blue" ? "bg-blue-500/10 text-blue-400" :
-                    "bg-cyan-500/10 text-cyan-400"
+                    step.glow === "purple" ? "bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400" :
+                    step.glow === "blue" ? "bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400" :
+                    "bg-cyan-100 dark:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400"
                   }`}>
                     <StepIcon className="w-6 h-6 animate-pulse" />
                   </div>
 
                   {/* Title & Desc */}
-                  <h3 className="text-xl font-bold text-white mb-3">
+                  <h3 className="text-xl font-bold text-foreground mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">
+                  <p className="text-muted-foreground text-sm leading-relaxed">
                     {step.desc}
                   </p>
                 </Card>

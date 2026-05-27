@@ -48,38 +48,37 @@ const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer id="contact" className="border-t border-white/5 bg-slate-950/80 pt-16 pb-8 relative z-10">
+    <footer id="contact" className="border-t border-border bg-background/50 dark:bg-slate-950/80 pt-16 pb-8 relative z-10">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Upper footer grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-border">
           
           {/* Logo & details */}
           <div className="flex flex-col gap-4">
             <a href="#" className="flex items-center gap-2 group w-fit">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-500 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.4)]">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-500 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.2)] dark:shadow-[0_0_15px_rgba(124,58,237,0.4)]">
                 <span className="text-white font-black text-sm">E</span>
               </div>
-              <span className="text-white font-bold text-lg tracking-tight">
-                Event<span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">OS</span>
+              <span className="text-foreground font-bold text-lg tracking-tight">
+                Event<span className="bg-gradient-to-r from-purple-500 to-cyan-500 dark:from-purple-400 dark:to-cyan-400 bg-clip-text text-transparent">OS</span>
               </span>
             </a>
-            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+            <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
               Supercharging college gatherings, hackathons, and cultural fests with smart registration systems and automated certificates.
             </p>
-            <div className="flex items-center gap-3 mt-2 text-slate-400">
-              <a href="#" className="hover:text-white transition-colors duration-300">
+            <div className="flex items-center gap-3 mt-2 text-muted-foreground">
+              <a href="#" className="hover:text-foreground transition-colors duration-300">
                 <LinkedinIcon className="w-4 h-4" />
               </a>
-              <a href="#" className="hover:text-white transition-colors duration-300">
+              <a href="#" className="hover:text-foreground transition-colors duration-300">
                 <TwitterIcon className="w-4 h-4" />
               </a>
-              <a href="#" className="hover:text-white transition-colors duration-300">
+              <a href="#" className="hover:text-foreground transition-colors duration-300">
                 <GithubIcon className="w-4 h-4" />
               </a>
             </div>
@@ -87,39 +86,39 @@ export default function Footer() {
 
           {/* Sitemaps */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-4">Product</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-4">Product</h4>
             <ul className="space-y-2.5 text-xs sm:text-sm">
-              <li><a href="#features" className="text-slate-400 hover:text-white transition-colors">Features</a></li>
-              <li><a href="#certificates" className="text-slate-400 hover:text-white transition-colors">Certificates</a></li>
-              <li><a href="#pricing" className="text-slate-400 hover:text-white transition-colors">Pricing Plans</a></li>
-              <li><a href="#faq" className="text-slate-400 hover:text-white transition-colors">FAQ Accordion</a></li>
+              <li><a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a></li>
+              <li><a href="#certificates" className="text-muted-foreground hover:text-foreground transition-colors">Certificates</a></li>
+              <li><a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing Plans</a></li>
+              <li><a href="#faq" className="text-muted-foreground hover:text-foreground transition-colors">FAQ Accordion</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-4">Resources</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-4">Resources</h4>
             <ul className="space-y-2.5 text-xs sm:text-sm">
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors">University Portal API</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors">Canva Templates</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors">Developer Docs</a></li>
-              <li><a href="#" className="text-slate-400 hover:text-white transition-colors">Status Board</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">University Portal API</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Canva Templates</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Developer Docs</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Status Board</a></li>
             </ul>
           </div>
 
           {/* Contact Details */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-4">Contact US</h4>
-            <ul className="space-y-3.5 text-xs sm:text-sm text-slate-400">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-4">Contact US</h4>
+            <ul className="space-y-3.5 text-xs sm:text-sm text-muted-foreground">
               <li className="flex gap-2 items-center">
-                <Mail className="w-4 h-4 text-purple-400 shrink-0" />
+                <Mail className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
                 <span>support@eventos.club</span>
               </li>
               <li className="flex gap-2 items-center">
-                <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
+                <Phone className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
                 <span>+91 98765 43210</span>
               </li>
               <li className="flex gap-2 items-start">
-                <MapPin className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
                 <span>IIT Innovation Hub, Powai,<br />Mumbai, MH 400076</span>
               </li>
             </ul>
@@ -128,12 +127,12 @@ export default function Footer() {
         </div>
 
         {/* Lower footer copyright */}
-        <div className="flex flex-col sm:flex-row justify-between items-center pt-8 text-[11px] sm:text-xs text-slate-500 gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center pt-8 text-[11px] sm:text-xs text-muted-foreground gap-4">
           <span>&copy; {currentYear} EventOS Inc. All rights reserved.</span>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-slate-300 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-slate-300 transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-slate-300 transition-colors">Cookie Prefs</a>
+            <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-foreground transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-foreground transition-colors">Cookie Prefs</a>
           </div>
         </div>
 

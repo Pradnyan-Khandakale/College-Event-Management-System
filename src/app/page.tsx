@@ -16,7 +16,7 @@ import Footer from "@/components/sections/Footer";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-[#050716] overflow-x-hidden text-slate-100 selection:bg-purple-500/30 selection:text-white">
+    <div className="relative min-h-screen bg-background overflow-x-hidden text-foreground selection:bg-purple-500/10 dark:selection:bg-purple-500/30 selection:text-foreground">
       {/* Noise texture overlay */}
       <div className="noise-overlay" />
 

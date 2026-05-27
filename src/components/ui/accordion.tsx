@@ -32,18 +32,20 @@ export function Accordion({ items, className }: AccordionProps) {
             key={item.id}
             className={twMerge(
               "glass-card-no-hover rounded-2xl overflow-hidden border transition-all duration-300",
-              isOpen ? "border-purple-500/20 bg-slate-950/70" : "border-white/5 bg-slate-950/40"
+              isOpen 
+                ? "border-purple-500/30 dark:border-purple-500/20 bg-purple-500/5 dark:bg-slate-950/70" 
+                : "border-border bg-card/40 dark:bg-slate-950/40"
             )}
           >
             <button
               onClick={() => toggle(item.id)}
-              className="w-full flex items-center justify-between p-6 text-left font-medium text-slate-200 hover:text-white transition-colors cursor-pointer"
+              className="w-full flex items-center justify-between p-6 text-left font-medium text-foreground/90 hover:text-foreground transition-colors cursor-pointer"
             >
               <span className="text-base sm:text-lg">{item.trigger}</span>
               <ChevronDown
                 className={twMerge(
-                  "w-5 h-5 text-slate-400 transition-transform duration-300 shrink-0 ml-4",
-                  isOpen && "transform rotate-180 text-purple-400"
+                  "w-5 h-5 text-muted-foreground transition-transform duration-300 shrink-0 ml-4",
+                  isOpen && "transform rotate-180 text-purple-600 dark:text-purple-400"
                 )}
               />
             </button>
@@ -55,7 +57,7 @@ export function Accordion({ items, className }: AccordionProps) {
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <div className="px-6 pb-6 text-sm sm:text-base text-slate-400 leading-relaxed border-t border-white/5 pt-4">
+                  <div className="px-6 pb-6 text-sm sm:text-base text-muted-foreground leading-relaxed border-t border-border pt-4">
                     {item.content}
                   </div>
                 </motion.div>

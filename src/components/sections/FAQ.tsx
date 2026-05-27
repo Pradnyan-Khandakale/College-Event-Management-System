@@ -35,7 +35,7 @@ const faqItems = [
 
 export default function FAQ() {
   return (
-    <section id="faq" className="py-24 relative overflow-hidden px-6 bg-slate-950/20">
+    <section id="faq" className="py-24 relative overflow-hidden px-6 bg-muted/10 dark:bg-slate-950/20">
       {/* Background glow decoration */}
       <div className="absolute bottom-0 right-10 w-[500px] h-[500px] rounded-full glow-bg-cyan opacity-20 pointer-events-none" />
       <div className="absolute top-0 left-10 w-[500px] h-[500px] rounded-full glow-bg-purple opacity-15 pointer-events-none" />
@@ -43,14 +43,14 @@ export default function FAQ() {
       <div className="max-w-4xl mx-auto">
         {/* Section Title */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-500/5 text-cyan-400 text-xs font-semibold mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/10 dark:border-cyan-500/20 bg-cyan-500/5 text-cyan-600 dark:text-cyan-400 text-xs font-semibold mb-6 select-none">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Got Questions?</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-foreground">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-400 mt-4 text-sm sm:text-base">
+          <p className="text-muted-foreground mt-4 text-sm sm:text-base">
             Everything you need to know about setting up tickets, handling transactions, and certificate distributions.
           </p>
         </div>

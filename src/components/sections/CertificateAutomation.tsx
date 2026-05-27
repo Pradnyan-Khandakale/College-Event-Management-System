@@ -43,7 +43,7 @@ const workflowSteps = [
 
 export default function CertificateAutomation() {
   return (
-    <section id="certificates" className="py-24 relative overflow-hidden px-6 bg-slate-950/40">
+    <section id="certificates" className="py-24 relative overflow-hidden px-6 bg-muted/10">
       {/* Background blobs */}
       <div className="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full glow-bg-purple opacity-30 pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-[500px] h-[500px] rounded-full glow-bg-cyan opacity-25 pointer-events-none" />
@@ -54,20 +54,20 @@ export default function CertificateAutomation() {
           
           {/* Left Side: Descriptions and Timeline */}
           <div className="lg:col-span-5 flex flex-col justify-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-500/5 text-cyan-400 text-xs font-semibold mb-6 w-fit">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/10 dark:border-cyan-500/20 bg-cyan-500/5 text-cyan-600 dark:text-cyan-400 text-xs font-semibold mb-6 w-fit select-none">
               <Award className="w-3.5 h-3.5" />
               <span>Industry-Leading Certificate Engine</span>
             </div>
             
-            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground leading-[1.1]">
               Generate & Send <br />
-              <span className="bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 dark:from-purple-400 dark:via-indigo-300 dark:to-cyan-400 bg-clip-text text-transparent">
                 Thousands of Certificates
               </span>{" "}
               Automatically
             </h2>
             
-            <p className="text-slate-400 mt-6 text-base sm:text-lg leading-relaxed">
+            <p className="text-muted-foreground mt-6 text-base sm:text-lg leading-relaxed">
               No more manual editing in Photoshop or Canva. Map attendee spreadsheets to your custom templates, generate tamper-proof PDFs, and email them out in minutes.
             </p>
 
@@ -88,11 +88,11 @@ export default function CertificateAutomation() {
                       <StepIcon className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                      <h4 className="text-sm sm:text-base font-bold text-foreground flex items-center gap-2">
                         {step.title}
-                        {idx === 3 && <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.2 rounded-full border border-emerald-500/30">TAMPER-PROOF</span>}
+                        {idx === 3 && <span className="text-[10px] bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 px-2 py-0.2 rounded-full border border-emerald-500/20 dark:border-emerald-500/30">TAMPER-PROOF</span>}
                       </h4>
-                      <p className="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed">{step.desc}</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground mt-1 leading-relaxed">{step.desc}</p>
                     </div>
                   </motion.div>
                 );
@@ -103,14 +103,14 @@ export default function CertificateAutomation() {
           {/* Right Side: High Fidelity Visual Mockup */}
           <div className="lg:col-span-7 relative flex justify-center items-center mt-8 lg:mt-0">
             {/* Template Editor Mockup */}
-            <div className="w-full rounded-2xl border border-white/10 bg-slate-950/70 p-4 sm:p-6 backdrop-blur-xl shadow-2xl relative">
+            <div className="w-full rounded-2xl border border-border bg-card/75 p-4 sm:p-6 backdrop-blur-xl shadow-2xl relative">
               {/* Toolbar */}
-              <div className="flex justify-between items-center border-b border-white/5 pb-4 mb-4">
-                <span className="text-xs sm:text-sm font-semibold text-white flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-purple-400" /> Certificate Template Studio
+              <div className="flex justify-between items-center border-b border-border pb-4 mb-4">
+                <span className="text-xs sm:text-sm font-semibold text-foreground flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-purple-500 dark:text-purple-400" /> Certificate Template Studio
                 </span>
                 <div className="flex gap-2">
-                  <button className="px-2.5 py-1 text-[10px] bg-white/5 hover:bg-white/10 border border-white/10 rounded-md text-slate-300 font-medium transition-colors cursor-pointer">
+                  <button className="px-2.5 py-1 text-[10px] bg-muted hover:bg-accent border border-border rounded-md text-foreground font-medium transition-colors cursor-pointer">
                     Canva Import
                   </button>
                   <button className="px-2.5 py-1 text-[10px] bg-purple-600 hover:bg-purple-500 rounded-md text-white font-medium shadow-md transition-colors cursor-pointer">
@@ -120,9 +120,9 @@ export default function CertificateAutomation() {
               </div>
 
               {/* Main canvas space */}
-              <div className="relative rounded-xl border border-dashed border-white/10 bg-slate-900/60 p-4 min-h-[260px] sm:min-h-[350px] flex items-center justify-center overflow-hidden">
+              <div className="relative rounded-xl border border-dashed border-border bg-background/50 p-4 min-h-[260px] sm:min-h-[350px] flex items-center justify-center overflow-hidden">
                 {/* Certificate Sheet Graphic */}
-                <div className="w-full max-w-[420px] aspect-[1.414/1] bg-slate-950 border-4 border-double border-yellow-600/30 rounded-lg p-3 sm:p-5 relative flex flex-col justify-between items-center text-center shadow-lg">
+                <div className="w-full max-w-[420px] aspect-[1.414/1] bg-background border-4 border-double border-yellow-600/30 rounded-lg p-3 sm:p-5 relative flex flex-col justify-between items-center text-center shadow-lg dark:shadow-none">
                   {/* Outer border glow */}
                   <div className="absolute inset-0 border border-yellow-600/10 pointer-events-none rounded" />
                   
@@ -133,20 +133,20 @@ export default function CertificateAutomation() {
                   <div className="absolute bottom-1 right-1 w-2 h-2 border-b border-r border-yellow-600/30" />
 
                   {/* Content */}
-                  <div className="text-[10px] tracking-[0.2em] font-serif text-yellow-500 font-bold uppercase">
+                  <div className="text-[10px] tracking-[0.2em] font-serif text-yellow-600 dark:text-yellow-500 font-bold uppercase">
                     Certificate of Excellence
                   </div>
 
                   <div className="flex flex-col items-center gap-1.5 my-2">
-                    <span className="text-[6px] text-slate-500 font-mono tracking-widest">THIS IS GRANTED TO</span>
+                    <span className="text-[6px] text-muted-foreground font-mono tracking-widest">THIS IS GRANTED TO</span>
                     
                     {/* Variable Highlight */}
-                    <div className="px-3 py-1 bg-purple-500/10 border border-purple-500/30 rounded-md text-[11px] sm:text-xs text-purple-300 font-bold font-mono tracking-wide relative group animate-pulse">
+                    <div className="px-3 py-1 bg-purple-500/15 border border-purple-500/30 rounded-md text-[11px] sm:text-xs text-purple-650 dark:text-purple-400 font-bold font-mono tracking-wide relative group animate-pulse">
                       {"{{"} Participant Name {"}}"}
                       <div className="absolute -top-3 -right-2 bg-purple-600 text-[6px] text-white px-1.5 py-0.2 rounded font-sans tracking-normal font-medium">Text Field</div>
                     </div>
 
-                    <span className="text-[6px] text-slate-500 font-mono tracking-wider max-w-[200px] mt-1">
+                    <span className="text-[6px] text-slate-500 dark:text-slate-400 font-mono tracking-wider max-w-[200px] mt-1">
                       for securing podium place at HackFest 2026 organized by IIT Event Cell.
                     </span>
                   </div>
@@ -155,17 +155,17 @@ export default function CertificateAutomation() {
                   <div className="w-full flex justify-between items-end mt-1 px-2">
                     {/* Signature */}
                     <div className="flex flex-col items-start">
-                      <span className="font-serif italic text-[8px] text-white">Pradnyan K.</span>
-                      <span className="w-12 border-t border-white/20 my-0.5" />
-                      <span className="text-[5px] text-slate-500 uppercase tracking-widest font-mono">Organizing Chair</span>
+                      <span className="font-serif italic text-[8px] text-foreground">Pradnyan K.</span>
+                      <span className="w-12 border-t border-border my-0.5" />
+                      <span className="text-[5px] text-slate-500 dark:text-slate-400 uppercase tracking-widest font-mono">Organizing Chair</span>
                     </div>
 
                     {/* QR Code stamps */}
-                    <div className="flex items-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded">
-                      <QrCode className="w-5 h-5 text-white" />
+                    <div className="flex items-center gap-1.5 p-1 bg-muted border border-border rounded">
+                      <QrCode className="w-5 h-5 text-foreground" />
                       <div className="text-left font-mono">
-                        <div className="text-[5px] text-emerald-400 font-bold">VERIFIED SECURE</div>
-                        <div className="text-[4px] text-slate-500">ID: EV-879-AP</div>
+                        <div className="text-[5px] text-emerald-600 dark:text-emerald-400 font-bold">VERIFIED SECURE</div>
+                        <div className="text-[4px] text-slate-500 dark:text-slate-400">ID: EV-879-AP</div>
                       </div>
                     </div>
                   </div>
@@ -175,13 +175,13 @@ export default function CertificateAutomation() {
                 <motion.div
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-4 -right-4 glass-card p-3 rounded-xl border border-emerald-500/30 shadow-xl max-w-[170px]"
+                  className="absolute -top-4 -right-4 glass-card p-3 rounded-xl shadow-xl max-w-[170px]"
                 >
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
                     <div>
-                      <div className="text-[9px] text-slate-400">Sent to Priya S.</div>
-                      <div className="text-[10px] font-bold text-white">priya@nit.edu</div>
+                      <div className="text-[9px] text-muted-foreground">Sent to Priya S.</div>
+                      <div className="text-[10px] font-bold text-foreground">priya@nit.edu</div>
                     </div>
                   </div>
                 </motion.div>
@@ -190,14 +190,14 @@ export default function CertificateAutomation() {
                 <motion.div
                   animate={{ y: [0, 8, 0] }}
                   transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                  className="absolute -bottom-4 -left-4 glass-card p-3 rounded-xl border border-purple-500/30 shadow-xl"
+                  className="absolute -bottom-4 -left-4 glass-card p-3 rounded-xl shadow-xl"
                 >
                   <div className="flex flex-col gap-1 text-[9px]">
-                    <span className="text-slate-400 font-medium">Font Family:</span>
-                    <span className="text-white font-bold font-serif">Playfair Display</span>
-                    <span className="text-slate-400 mt-1">Status:</span>
-                    <span className="text-emerald-400 font-bold flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" /> Auto-Generated
+                    <span className="text-muted-foreground font-medium">Font Family:</span>
+                    <span className="text-foreground font-bold font-serif">Playfair Display</span>
+                    <span className="text-muted-foreground mt-1">Status:</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-ping" /> Auto-Generated
                     </span>
                   </div>
                 </motion.div>

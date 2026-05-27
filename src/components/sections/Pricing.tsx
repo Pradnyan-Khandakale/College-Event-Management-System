@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Check, ShieldCheck, Sparkles, MessageCircle } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
 const plans = [
@@ -73,14 +73,14 @@ export default function Pricing() {
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/5 text-blue-300 text-xs font-semibold mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/10 dark:border-blue-500/20 bg-blue-500/5 text-blue-600 dark:text-blue-300 text-xs font-semibold mb-6 select-none">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Pricing Options</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-foreground">
             Transparent, Student-Friendly Plans
           </h2>
-          <p className="text-slate-400 mt-4 text-sm sm:text-base">
+          <p className="text-muted-foreground mt-4 text-sm sm:text-base">
             From casual club workshops to national level festivals, find the license package that fits your event.
           </p>
         </div>
@@ -98,45 +98,46 @@ export default function Pricing() {
             >
               <Card
                 hoverEffect={!plan.recommended}
-                className={`flex flex-col justify-between h-full p-8 relative rounded-3xl ${
+                glowColor={plan.recommended ? "purple" : "none"}
+                className={`flex flex-col justify-between h-full p-8 relative rounded-3xl transition-all duration-300 ${
                   plan.recommended
-                    ? "bg-slate-950/90 border-purple-500/40 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(168,85,247,0.2)]"
-                    : "bg-slate-950/40 border-white/5"
+                    ? "bg-white/90 dark:bg-slate-950/80 border-purple-500/30 dark:border-purple-500/40 shadow-[0_20px_50px_rgba(15,23,42,0.06),0_0_30px_rgba(168,85,247,0.08)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6),0_0_30px_rgba(168,85,247,0.2)]"
+                    : "bg-white/70 dark:bg-white/5 border border-black/5 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(6,182,212,0.05)]"
                 }`}
               >
                 {/* Popularity Badge */}
                 {plan.recommended && (
-                  <span className="absolute -top-4 right-6 px-3.5 py-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-[10px] font-bold uppercase tracking-wider text-white shadow-md flex items-center gap-1.5 border border-purple-500/30">
-                    <Sparkles className="w-3 h-3 text-yellow-300 animate-spin" /> MOST POPULAR
+                  <span className="absolute -top-4 right-6 px-3.5 py-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full text-[10px] font-bold uppercase tracking-wider text-white shadow-md flex items-center gap-1.5 border border-purple-500/20 dark:border-purple-500/30 select-none">
+                    <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-spin" /> MOST POPULAR
                   </span>
                 )}
 
                 <div>
                   {/* Plan Name */}
-                  <h3 className="text-xl font-bold text-white tracking-tight">
+                  <h3 className="text-xl font-bold text-foreground tracking-tight">
                     {plan.name}
                   </h3>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed h-10">
+                  <p className="text-muted-foreground text-xs mt-2 leading-relaxed h-10">
                     {plan.desc}
                   </p>
 
                   {/* Price */}
                   <div className="flex items-baseline mt-6 mb-8">
-                    <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+                    <span className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight">
                       {plan.price}
                     </span>
                     {plan.period && (
-                      <span className="text-slate-500 text-xs sm:text-sm font-medium ml-2 font-mono">
+                      <span className="text-muted-foreground text-xs sm:text-sm font-medium ml-2 font-mono">
                         / {plan.period}
                       </span>
                     )}
                   </div>
 
                   {/* Features List */}
-                  <ul className="space-y-4 border-t border-white/5 pt-6">
+                  <ul className="space-y-4 border-t border-border pt-6">
                     {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3 text-slate-300 text-xs sm:text-sm">
-                        <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                      <li key={feature} className="flex items-start gap-3 text-foreground/80 dark:text-slate-300 text-xs sm:text-sm">
+                        <Check className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
                     ))}

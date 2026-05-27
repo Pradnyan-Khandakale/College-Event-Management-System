@@ -34,7 +34,7 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="py-24 relative overflow-hidden px-6 bg-slate-950/20">
+    <section id="testimonials" className="py-24 relative overflow-hidden px-6 bg-muted/20 dark:bg-slate-950/20">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full glow-bg-purple opacity-20 pointer-events-none" />
 
@@ -42,14 +42,14 @@ export default function Testimonials() {
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/20 bg-purple-500/5 text-purple-300 text-xs font-semibold mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/10 dark:border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-300 text-xs font-semibold mb-6 select-none">
             <MessageSquare className="w-3.5 h-3.5" />
             <span>Success Stories</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-foreground">
             Loved by Student Organizers
           </h2>
-          <p className="text-slate-400 mt-4 text-sm sm:text-base">
+          <p className="text-muted-foreground mt-4 text-sm sm:text-base">
             See how major college hackathons, technical societies, and cultural festivals save hundreds of hours of administrative friction.
           </p>
         </div>
@@ -64,8 +64,8 @@ export default function Testimonials() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.15 }}
             >
-              <Card className="flex flex-col justify-between h-full p-8 bg-slate-950/60 border border-white/5 relative">
-                <Quote className="absolute top-6 right-6 w-8 h-8 text-white/5 pointer-events-none" />
+              <Card className="glass-card flex flex-col justify-between h-full p-8 relative">
+                <Quote className="absolute top-6 right-6 w-8 h-8 text-foreground/[0.03] dark:text-white/5 pointer-events-none" />
                 
                 {/* Five Stars */}
                 <div className="flex gap-1 mb-6 text-yellow-500/80">
@@ -74,22 +74,22 @@ export default function Testimonials() {
                   ))}
                 </div>
 
-                <blockquote className="text-slate-300 text-sm sm:text-base leading-relaxed font-medium mb-8">
+                <blockquote className="text-foreground/80 dark:text-slate-350 text-sm sm:text-base leading-relaxed font-medium mb-8">
                   "{t.quote}"
                 </blockquote>
 
                 {/* Profile Details */}
-                <div className="flex items-center gap-4 border-t border-white/5 pt-6">
+                <div className="flex items-center gap-4 border-t border-border pt-6">
                   {/* Colored initial badge */}
                   <div className={`w-11 h-11 rounded-full bg-gradient-to-tr ${t.color} flex items-center justify-center text-white font-bold text-sm shadow-md`}>
                     {t.initials}
                   </div>
                   <div>
-                    <cite className="not-italic text-sm sm:text-base font-bold text-white block">
+                    <cite className="not-italic text-sm sm:text-base font-bold text-foreground block">
                       {t.name}
                     </cite>
-                    <span className="text-[11px] sm:text-xs text-slate-500 font-medium uppercase tracking-wider block mt-0.5">
-                      {t.role}, <span className="text-slate-400 font-semibold">{t.org}</span>
+                    <span className="text-[11px] sm:text-xs text-muted-foreground font-medium uppercase tracking-wider block mt-0.5">
+                      {t.role}, <span className="text-foreground/85 dark:text-slate-400 font-semibold">{t.org}</span>
                     </span>
                   </div>
                 </div>
