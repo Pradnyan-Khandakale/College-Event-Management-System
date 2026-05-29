@@ -5,6 +5,7 @@ import { Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 const navLinks = [
   { name: "Features", href: "#features" },
@@ -80,12 +81,16 @@ export default function Navbar() {
               )}
             </button>
 
-            <Button variant="outline" size="sm">
-              Book Demo
-            </Button>
-            <Button variant="primary" size="sm">
-              Start Free
-            </Button>
+            <Link href="/dashboard">
+              <Button variant="outline" size="sm">
+                Book Demo
+              </Button>
+            </Link>
+            <Link href="/dashboard">
+              <Button variant="primary" size="sm">
+                Start Free
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu & Toggle wrapper */}
@@ -136,20 +141,24 @@ export default function Navbar() {
               ))}
             </div>
             <div className="flex flex-col gap-4 mt-4">
-              <Button
-                variant="outline"
-                className="w-full justify-center"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Book Demo
-              </Button>
-              <Button
-                variant="primary"
-                className="w-full justify-center"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Start Free
-              </Button>
+              <Link href="/dashboard" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full justify-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Book Demo
+                </Button>
+              </Link>
+              <Link href="/dashboard" className="w-full">
+                <Button
+                  variant="primary"
+                  className="w-full justify-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Start Free
+                </Button>
+              </Link>
             </div>
           </motion.div>
         )}
