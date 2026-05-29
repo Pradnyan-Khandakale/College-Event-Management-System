@@ -89,12 +89,9 @@ export default function DashboardLayout({
 
         {/* Content Wrapper */}
         <div
-          className="flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-300"
-          style={{
-            paddingLeft: typeof window !== "undefined" && window.innerWidth >= 768 
-              ? (isCollapsed ? "76px" : "264px") 
-              : "0px"
-          }}
+          className={`flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-300 ${
+            isCollapsed ? "md:pl-[76px]" : "md:pl-[264px]"
+          }`}
         >
           {/* Top Navbar */}
           <Navbar onMenuToggle={() => setIsMobileOpen(true)} />
