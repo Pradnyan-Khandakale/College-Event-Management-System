@@ -134,6 +134,8 @@ export interface WebsiteConfig {
   faqs: FAQItem[];
 }
 
+export type TabId = "templates" | "info" | "registration" | "branding" | "sections" | "why" | "prizes" | "timeline" | "sponsors" | "faq" | "speakers" | "seo" | "advanced";
+
 interface WebsiteBuilderProps {
   config: WebsiteConfig;
   onChange: (config: WebsiteConfig) => void;
@@ -187,7 +189,7 @@ const FONTS_INFO = {
 };
 
 export default function WebsiteBuilder({ config, onChange, eventName, eventDate }: WebsiteBuilderProps) {
-  const [activeTab, setActiveTab] = useState<"templates" | "info" | "registration" | "sections" | "why" | "prizes" | "timeline" | "sponsors" | "faq" | "branding" | "speakers" | "seo" | "advanced">("templates");
+  const [activeTab, setActiveTab] = useState<TabId>("templates");
   const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">("desktop");
   const [zoomLevel, setZoomLevel] = useState<50 | 75 | 100>(100);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -213,6 +215,11 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
   // Local state for FAQ adder
   const [newFaqQ, setNewFaqQ] = useState("");
   const [newFaqA, setNewFaqA] = useState("");
+
+  // Local state for speaker inputs
+  const [newSpeakerName, setNewSpeakerName] = useState("");
+  const [newSpeakerRole, setNewSpeakerRole] = useState("");
+  const [newSpeakerOrg, setNewSpeakerOrg] = useState("");
 
   const updateConfig = (updates: Partial<WebsiteConfig>) => {
     onChange({ ...config, ...updates });
@@ -339,7 +346,7 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
               <div className="w-3 h-3 rounded-full bg-emerald-400" />
             </div>
             <div className="w-2/4 max-w-md bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 rounded-lg py-1 px-4 text-[10px] text-muted-foreground truncate font-sans text-center shadow-inner relative flex items-center justify-center">
-              eventos.club/e/{config.slug || "untitled-campaign"}
+              eventos.club/events/preview/{config.slug || "untitled-campaign"}
             </div>
             <div className="w-1/4 flex justify-end">
               <div className="w-4 h-4 rounded bg-slate-200 dark:bg-slate-800" />
@@ -393,7 +400,7 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
         
         {/* Navigation Tabs */}
         <div className="flex border-b border-black/5 dark:border-white/10 bg-black/[0.01] dark:bg-white/[0.01] overflow-x-auto scrollbar-none text-xs font-bold whitespace-nowrap">
-          {[
+          {([
             { id: "templates", label: "Templates", icon: Layout },
             { id: "info", label: "Info", icon: FileText },
             { id: "registration", label: "Tickets", icon: DollarSign },
@@ -407,12 +414,12 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
             { id: "speakers", label: "Speakers", icon: Users },
             { id: "seo", label: "SEO Settings", icon: Globe },
             { id: "advanced", label: "Advanced", icon: Sliders }
-          ].map((tab) => {
+          ] as { id: TabId; label: string; icon: any }[]).map((tab) => {
             const TabIcon = tab.icon;
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-1.5 px-4 py-3 border-b-2 transition-colors cursor-pointer ${
                   activeTab === tab.id
                     ? "border-purple-600 text-purple-600 dark:text-purple-400 bg-purple-500/[0.02]"
@@ -657,7 +664,7 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
                 <label className="font-bold text-foreground">Typography Font</label>
                 <select
                   value={config.font}
-                  onChange={(e) => updateConfig({ font: e.target.value as any })}
+                  onChange={(e) => updateConfig({ font: e.target.value as WebsiteConfig["font"] })}
                   className="h-10 px-3 rounded-xl border border-black/5 dark:border-white/10 bg-black/[0.01] text-foreground"
                 >
                   <option value="inter">Inter (Sans)</option>
@@ -790,19 +797,19 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
               </div>
 
               <div className="space-y-3">
-                {[
+                {([
                   { key: "first", label: "🥇 1st Place Prize" },
                   { key: "second", label: "🥈 2nd Place Prize" },
                   { key: "third", label: "🥉 3rd Place Prize" },
                   { key: "bestFemale", label: "👩 Best Female Team Reward" },
                   { key: "bestInnovation", label: "💡 Best Innovation Award" },
                   { key: "special", label: "🎗️ Special Mentions Swags" }
-                ].map((item) => (
+                ] as { key: keyof WebsiteConfig["prizes"]; label: string }[]).map((item) => (
                   <div key={item.key} className="flex flex-col gap-1">
                     <label className="font-bold text-foreground">{item.label}</label>
                     <input
                       type="text"
-                      value={(config.prizes as any)[item.key] || ""}
+                      value={config.prizes[item.key] || ""}
                       onChange={(e) => updateConfig({ prizes: { ...config.prizes, [item.key]: e.target.value } })}
                       className="h-10 px-3 rounded-xl border border-black/5 dark:border-white/10 bg-black/[0.01]"
                     />
@@ -907,7 +914,7 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
                 <div className="flex gap-2">
                   <select
                     value={newSponCat}
-                    onChange={(e) => setNewSponCat(e.target.value as any)}
+                    onChange={(e) => setNewSponCat(e.target.value as SponsorItem["category"])}
                     className="flex-1 h-9 px-2 rounded-lg border border-black/5 bg-white dark:bg-slate-950"
                   >
                     <option value="Title Sponsor">🥇 Title Sponsor</option>
@@ -1016,19 +1023,22 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
                 <input
                   type="text"
                   placeholder="Full Name"
-                  id="newSpeakerNameInp"
+                  value={newSpeakerName}
+                  onChange={(e) => setNewSpeakerName(e.target.value)}
                   className="w-full h-9 px-3 rounded-lg border border-black/5 bg-white dark:bg-slate-950"
                 />
                 <input
                   type="text"
                   placeholder="Role / Title"
-                  id="newSpeakerRoleInp"
+                  value={newSpeakerRole}
+                  onChange={(e) => setNewSpeakerRole(e.target.value)}
                   className="w-full h-9 px-3 rounded-lg border border-black/5 bg-white dark:bg-slate-950"
                 />
                 <input
                   type="text"
                   placeholder="Organization"
-                  id="newSpeakerOrgInp"
+                  value={newSpeakerOrg}
+                  onChange={(e) => setNewSpeakerOrg(e.target.value)}
                   className="w-full h-9 px-3 rounded-lg border border-black/5 bg-white dark:bg-slate-950"
                 />
                 <Button
@@ -1037,20 +1047,17 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
                   size="sm"
                   className="w-full h-9 rounded-lg"
                   onClick={() => {
-                    const nameInp = document.getElementById("newSpeakerNameInp") as HTMLInputElement;
-                    const roleInp = document.getElementById("newSpeakerRoleInp") as HTMLInputElement;
-                    const orgInp = document.getElementById("newSpeakerOrgInp") as HTMLInputElement;
-                    if (nameInp && nameInp.value) {
-                      const photo = `https://api.dicebear.com/7.x/adventurer/svg?seed=${nameInp.value.toLowerCase().replace(/ /g, "-")}`;
+                    if (newSpeakerName.trim()) {
+                      const photo = `https://api.dicebear.com/7.x/adventurer/svg?seed=${newSpeakerName.toLowerCase().replace(/ /g, "-")}`;
                       updateConfig({
                         speakers: [
                           ...config.speakers,
-                          { name: nameInp.value, role: roleInp.value || "Speaker", organization: orgInp.value || "University", photo }
+                          { name: newSpeakerName, role: newSpeakerRole || "Speaker", organization: newSpeakerOrg || "University", photo }
                         ]
                       });
-                      nameInp.value = "";
-                      roleInp.value = "";
-                      orgInp.value = "";
+                      setNewSpeakerName("");
+                      setNewSpeakerRole("");
+                      setNewSpeakerOrg("");
                     }
                   }}
                 >
@@ -1130,18 +1137,18 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
               </div>
 
               <div className="space-y-2">
-                {[
+                {([
                   { id: "enableCountdown", label: "Countdown Timer", desc: "Show ticks to event opening" },
                   { id: "enableQrReg", label: "QR Pass Ticket allocation", desc: "Attach scanner verifications" },
                   { id: "enableWhatsappShare", label: "WhatsApp Share link", desc: "Enable quick group invites" },
                   { id: "enableEmailCollection", label: "Email Newsletter Signup", desc: "Build subscriber registry" },
                   { id: "enableLeaderboard", label: "Registrants Leaderboard", desc: "Rank campus referral promoter tables" },
                   { id: "enableAnnouncements", label: "Announcements Alert Banner", desc: "Marquee notification ticker bar" }
-                ].map((item) => (
+                ] as const).map((item) => (
                   <label key={item.id} className="flex items-start gap-3 p-2.5 rounded-xl border border-black/5 dark:border-white/10 bg-black/[0.005] cursor-pointer hover:bg-black/[0.015]">
                     <input
                       type="checkbox"
-                      checked={(config as any)[item.id]}
+                      checked={config[item.id]}
                       onChange={(e) => updateConfig({ [item.id]: e.target.checked })}
                       className="accent-purple-600 rounded mt-0.5 cursor-pointer"
                     />
@@ -1229,10 +1236,10 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
             {/* Zoom dropdown selector */}
             <div className="flex items-center gap-1 border-r border-black/5 dark:border-white/10 pr-2.5 select-none">
               <span className="text-[10px] text-muted-foreground">Zoom:</span>
-              {[50, 75, 100].map((z) => (
+              {([50, 75, 100] as const).map((z) => (
                 <button
                   key={z}
-                  onClick={() => setZoomLevel(z as any)}
+                  onClick={() => setZoomLevel(z)}
                   className={`px-1.5 py-0.5 rounded text-[9px] font-bold cursor-pointer ${
                     zoomLevel === z ? "bg-purple-600 text-white" : "hover:bg-slate-100 dark:hover:bg-slate-800 text-muted-foreground"
                   }`}
@@ -1294,7 +1301,7 @@ export default function WebsiteBuilder({ config, onChange, eventName, eventDate 
                 <span className="font-bold text-sm tracking-tight flex items-center gap-1">
                   <Eye className="w-4.5 h-4.5 text-purple-400" /> Fullscreen Live Preview
                 </span>
-                <span className="text-[10px] text-muted-foreground">| https://eventos.club/e/{config.slug}</span>
+                <span className="text-[10px] text-muted-foreground">| https://eventos.club/events/preview/{config.slug || "untitled-campaign"}</span>
               </div>
 
               <div className="flex items-center gap-3">

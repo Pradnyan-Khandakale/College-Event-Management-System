@@ -34,11 +34,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import WebsiteBuilder, { WebsiteConfig } from "./WebsiteBuilder";
 
-interface CreateEventWizardProps {
-  isOpen?: boolean;
-  onClose?: () => void;
-  isPage?: boolean;
-}
+type CreateEventWizardProps = 
+  | { isPage: true; isOpen?: boolean; onClose?: never }
+  | { isPage?: false; isOpen?: boolean; onClose: () => void };
 
 const STEP_TITLES = [
   "Event Details",
@@ -78,11 +76,14 @@ const CERT_TEMPLATES = [
   "Abstract Artsy Wave"
 ];
 
-export default function CreateEventWizard({ isOpen = true, onClose, isPage = false }: CreateEventWizardProps) {
+export default function CreateEventWizard(props: CreateEventWizardProps) {
   const router = useRouter();
   const { addEvent, events } = useEvents();
   const [currentStep, setCurrentStep] = useState(1);
   const [mounted, setMounted] = useState(false);
+  
+  const isPage = props.isPage ?? false;
+  const isOpen = props.isOpen ?? true;
   
   // Form State
   const [name, setName] = useState("");
@@ -98,6 +99,8 @@ export default function CreateEventWizard({ isOpen = true, onClose, isPage = fal
   const [slug, setSlug] = useState("");
   
   const [isPublished, setIsPublished] = useState(false);
+  const [isPersisted, setIsPersisted] = useState(false);
+  const [isPersisting, setIsPersisting] = useState(false);
 
   // Autosave and Recovery State
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
@@ -205,6 +208,18 @@ export default function CreateEventWizard({ isOpen = true, onClose, isPage = fal
       setShowRestorePrompt(true);
     }
   }, []);
+
+  // Simulate Server Persistence delay
+  useEffect(() => {
+    if (isPublished && !isPersisted && !isPersisting) {
+      setIsPersisting(true);
+      const timer = setTimeout(() => {
+        setIsPersisted(true);
+        setIsPersisting(false);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [isPublished, isPersisted, isPersisting]);
 
   // Autosave triggers
   useEffect(() => {
@@ -356,11 +371,13 @@ export default function CreateEventWizard({ isOpen = true, onClose, isPage = fal
     setCertTemplate(CERT_TEMPLATES[0]);
     setSlug("");
     setIsPublished(false);
+    setIsPersisted(false);
+    setIsPersisting(false);
     
-    if (isPage) {
+    if (props.isPage) {
       router.push("/dashboard/events");
     } else {
-      onClose?.();
+      props.onClose();
     }
   };
 
@@ -427,22 +444,35 @@ export default function CreateEventWizard({ isOpen = true, onClose, isPage = fal
               <div className="md:col-span-3 space-y-4">
                 <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-black/5 dark:border-white/10 space-y-3.5 shadow-sm">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Live Website Link</span>
-                    <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">Active</span>
+                    <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">
+                      {isPersisted ? "Live Website Link" : "Local Draft Link"}
+                    </span>
+                    {isPersisted ? (
+                      <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">Active</span>
+                    ) : isPersisting ? (
+                      <span className="text-[9px] font-bold text-purple-650 dark:text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <RefreshCw className="w-2.5 h-2.5 animate-spin" /> Persisting...
+                      </span>
+                    ) : (
+                      <span className="text-[9px] font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full">Local Preview</span>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-950 px-3.5 py-2.5 rounded-xl border border-black/5 dark:border-white/10 min-w-0">
                     <Globe className="w-4 h-4 text-purple-500 shrink-0" />
                     <span className="text-xs font-mono text-foreground select-all truncate flex-1">
-                      {mounted ? `${window.location.origin}/events/${slug}` : `eventos.club/events/${slug}`}
+                      {isPersisted && mounted ? `${window.location.origin}/events/${slug}` : `eventos.club/events/${slug} (Unsaved)`}
                     </span>
                     <button 
+                      disabled={!isPersisted}
                       onClick={() => {
                         const url = `${window.location.origin}/events/${slug}`;
                         navigator.clipboard.writeText(url);
                         alert("URL copied to clipboard!");
                       }}
-                      className="text-[10px] font-black text-purple-600 dark:text-purple-400 hover:underline cursor-pointer shrink-0"
+                      className={`text-[10px] font-black shrink-0 ${
+                        isPersisted ? "text-purple-600 dark:text-purple-400 hover:underline cursor-pointer" : "text-muted-foreground opacity-50 cursor-not-allowed"
+                      }`}
                     >
                       Copy Link
                     </button>
@@ -451,8 +481,10 @@ export default function CreateEventWizard({ isOpen = true, onClose, isPage = fal
                   <div className="flex gap-3">
                     <Button 
                       variant="outline" 
-                      className="flex-1 text-xs gap-1.5 h-10 cursor-pointer"
+                      className={`flex-1 text-xs gap-1.5 h-10 ${!isPersisted ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                      disabled={!isPersisted}
                       onClick={() => {
+                        if (!isPersisted) return;
                         const url = `/events/${slug}`;
                         window.open(url, "_blank");
                       }}
@@ -461,8 +493,10 @@ export default function CreateEventWizard({ isOpen = true, onClose, isPage = fal
                     </Button>
                     <Button 
                       variant="outline" 
-                      className="flex-1 text-xs gap-1.5 h-10 cursor-pointer"
+                      className={`flex-1 text-xs gap-1.5 h-10 ${!isPersisted ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                      disabled={!isPersisted}
                       onClick={() => {
+                        if (!isPersisted) return;
                         const url = `/events/preview/${slug}`;
                         window.open(url, "_blank");
                       }}
@@ -477,26 +511,35 @@ export default function CreateEventWizard({ isOpen = true, onClose, isPage = fal
                   <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest block">Broadcast & Share Campaign</span>
                   <div className="grid grid-cols-3 gap-2">
                     <a
-                      href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Check out our college event ${name}! Register here: ${mounted ? window.location.origin : 'https://eventos.club'}/events/${slug}`)}`}
-                      target="_blank"
+                      href={isPersisted ? `https://api.whatsapp.com/send?text=${encodeURIComponent(`Check out our college event ${name}! Register here: ${mounted ? window.location.origin : 'https://eventos.club'}/events/${slug}`)}` : "#"}
+                      onClick={(e) => { if (!isPersisted) e.preventDefault(); }}
+                      target={isPersisted ? "_blank" : undefined}
                       rel="noopener noreferrer"
-                      className="h-10 rounded-xl border border-black/5 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center gap-1.5 text-xs font-bold text-foreground transition-all"
+                      className={`h-10 rounded-xl border border-black/5 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center gap-1.5 text-xs font-bold text-foreground transition-all ${
+                        !isPersisted ? "opacity-50 cursor-not-allowed pointer-events-none" : ""
+                      }`}
                     >
                       WhatsApp
                     </a>
                     <a
-                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${mounted ? window.location.origin : 'https://eventos.club'}/events/${slug}`)}`}
-                      target="_blank"
+                      href={isPersisted ? `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${mounted ? window.location.origin : 'https://eventos.club'}/events/${slug}`)}` : "#"}
+                      onClick={(e) => { if (!isPersisted) e.preventDefault(); }}
+                      target={isPersisted ? "_blank" : undefined}
                       rel="noopener noreferrer"
-                      className="h-10 rounded-xl border border-black/5 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center gap-1.5 text-xs font-bold text-foreground transition-all"
+                      className={`h-10 rounded-xl border border-black/5 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center gap-1.5 text-xs font-bold text-foreground transition-all ${
+                        !isPersisted ? "opacity-50 cursor-not-allowed pointer-events-none" : ""
+                      }`}
                     >
                       LinkedIn
                     </a>
                     <a
-                      href={`https://x.com/intent/tweet?url=${encodeURIComponent(`${mounted ? window.location.origin : 'https://eventos.club'}/events/${slug}`)}&text=${encodeURIComponent(`Register for ${name} now!`)}`}
-                      target="_blank"
+                      href={isPersisted ? `https://x.com/intent/tweet?url=${encodeURIComponent(`${mounted ? window.location.origin : 'https://eventos.club'}/events/${slug}`)}&text=${encodeURIComponent(`Register for ${name} now!`)}` : "#"}
+                      onClick={(e) => { if (!isPersisted) e.preventDefault(); }}
+                      target={isPersisted ? "_blank" : undefined}
                       rel="noopener noreferrer"
-                      className="h-10 rounded-xl border border-black/5 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center gap-1.5 text-xs font-bold text-foreground transition-all"
+                      className={`h-10 rounded-xl border border-black/5 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center gap-1.5 text-xs font-bold text-foreground transition-all ${
+                        !isPersisted ? "opacity-50 cursor-not-allowed pointer-events-none" : ""
+                      }`}
                     >
                       Twitter / X
                     </a>
@@ -960,7 +1003,7 @@ export default function CreateEventWizard({ isOpen = true, onClose, isPage = fal
               {saveIndicatorText}
             </span>
           )}
-          <span>{Math.round(((currentStep - 1) / 3) * 100)}% Complete</span>
+          <span>{Math.round((currentStep / 4) * 100)}% Complete</span>
         </div>
       </div>
       <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">

@@ -7,6 +7,86 @@ import { Event } from "@/components/dashboard/EventContext";
 import { EyeOff, Globe, ArrowLeft, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+function getDefaultWebsiteConfig(event: Event, slug: string): WebsiteConfig {
+  return {
+    template: (event.theme?.toLowerCase().includes("fest") ? "fest" : event.theme?.toLowerCase().includes("contest") ? "minimal" : "hackathon") as "hackathon" | "fest" | "workshop" | "startup" | "minimal",
+    tagline: "Build Next-Gen Applications",
+    shortDescription: event.description || "",
+    longDescription: event.description || "",
+    aboutCompetition: "Create a functional prototype.",
+    rules: "1. Plagiarism is strictly prohibited.",
+    eligibility: "Open to all enrolled college students.",
+    importantDates: [
+      { label: "Event Date", date: event.date || "" }
+    ],
+    venue: event.websiteConfig?.venue || "Main Campus Auditorium",
+    isOnline: false,
+    contactEmail: "contact@college.edu",
+    contactPhone: "+91 98765 43210",
+    socialLinks: { twitter: "https://twitter.com", github: "https://github.com" },
+    registrationType: event.registrationType || "free",
+    entryFee: event.price || 0,
+    currency: "INR",
+    discountCode: false,
+    capacityType: "limited",
+    capacity: event.capacity || 100,
+    isTeam: event.isTeam || false,
+    minTeamSize: 2,
+    maxTeamSize: 5,
+    sections: [
+      { id: "hero", name: "Hero Main Header", enabled: true },
+      { id: "about", name: "About Details", enabled: true },
+      { id: "why", name: "Why Participate", enabled: true },
+      { id: "prizes", name: "Prizes & Pool", enabled: true },
+      { id: "timeline", name: "Important Dates", enabled: true },
+      { id: "sponsors", name: "Sponsor Logos", enabled: true }
+    ],
+    prizes: {
+      first: "₹50,000",
+      second: "₹25,000",
+      third: "₹10,000",
+      special: "Goodies & Swag for Top 50"
+    },
+    primaryColor: "#a855f7",
+    secondaryColor: "#4f46e5",
+    accentColor: "#3b82f6",
+    font: "inter",
+    logoText: event.name?.toUpperCase().slice(0, 10) || "EVENTOS",
+    sponsorLogos: ["Google", "Stripe", "Devfolio"],
+    speakers: [],
+    judges: [],
+    metaTitle: event.name || "Event",
+    metaDescription: event.description || "",
+    slug: slug,
+    enableCountdown: true,
+    enableQrReg: true,
+    enableWhatsappShare: true,
+    enableEmailCollection: true,
+    enableReferral: false,
+    enableAmbassador: false,
+    enableWaitlist: false,
+    enableAttendanceTracking: true,
+    enableCertVerification: true,
+    enableLeaderboard: false,
+    enableAnnouncements: true,
+    announcementText: "🚀 Registrations open! Complete registration today.",
+    whyParticipate: [
+      { id: "benefit-1", title: "Build Real Projects", desc: "Gain hands-on experience building working prototypes.", icon: "zap" },
+      { id: "benefit-2", title: "Network with Experts", desc: "Connect with mentors, judges, and developers.", icon: "users" },
+      { id: "benefit-3", title: "Win Cash Prizes", desc: "Cash awards and swags pool for top teams.", icon: "trophy" }
+    ],
+    timeline: [
+      { id: "time-1", date: event.date || "", time: "09:00 AM", title: "Event Starts", desc: "Official launch and briefing." }
+    ],
+    sponsors: [
+      { id: "spon-1", name: "Google Cloud", category: "Title Sponsor", logoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=google&radius=20&backgroundColor=6366f1" }
+    ],
+    faqs: [
+      { id: "faq-1", question: "Who is eligible to participate?", answer: "All currently enrolled university students with valid student IDs can sign up." }
+    ]
+  };
+}
+
 export default function PublishedEventWebsite() {
   const params = useParams();
   const router = useRouter();
@@ -61,83 +141,24 @@ export default function PublishedEventWebsite() {
     );
   }
 
-  // Generate fallback landing config if not present
-  const websiteConfig: WebsiteConfig = event.websiteConfig || {
-    template: (event.theme?.toLowerCase().includes("fest") ? "fest" : event.theme?.toLowerCase().includes("contest") ? "minimal" : "hackathon") as any,
-    tagline: "Build Next-Gen Applications",
-    shortDescription: event.description,
-    longDescription: event.description,
-    aboutCompetition: "Create a functional prototype.",
-    rules: "1. Plagiarism is strictly prohibited.",
-    eligibility: "Open to all enrolled college students.",
-    importantDates: [
-      { label: "Event Date", date: event.date }
-    ],
-    venue: "Main Campus Auditorium",
-    isOnline: false,
-    contactEmail: "contact@college.edu",
-    contactPhone: "+91 98765 43210",
-    socialLinks: { twitter: "https://twitter.com", github: "https://github.com" },
-    registrationType: event.registrationType,
-    entryFee: event.price,
-    currency: "INR",
-    discountCode: false,
-    capacityType: "limited",
-    capacity: event.capacity,
-    isTeam: event.isTeam,
-    minTeamSize: 2,
-    maxTeamSize: 5,
-    sections: [
-      { id: "hero", name: "Hero Main Header", enabled: true },
-      { id: "about", name: "About Details", enabled: true },
-      { id: "why", name: "Why Participate", enabled: true },
-      { id: "prizes", name: "Prizes & Pool", enabled: true },
-      { id: "timeline", name: "Important Dates", enabled: true },
-      { id: "sponsors", name: "Sponsor Logos", enabled: true }
-    ],
-    prizes: {
-      first: "₹50,000",
-      second: "₹25,000",
-      third: "₹10,000",
-      special: "Goodies & Swag for Top 50"
+  const defaultWebsiteConfig = getDefaultWebsiteConfig(event, slug);
+  const websiteConfig: WebsiteConfig = {
+    ...defaultWebsiteConfig,
+    ...(event.websiteConfig || {}),
+    socialLinks: {
+      ...defaultWebsiteConfig.socialLinks,
+      ...(event.websiteConfig?.socialLinks || {})
     },
-    primaryColor: "#a855f7",
-    secondaryColor: "#4f46e5",
-    accentColor: "#3b82f6",
-    font: "inter",
-    logoText: event.name.toUpperCase().slice(0, 10),
-    sponsorLogos: ["Google", "Stripe", "Devfolio"],
-    speakers: [],
-    judges: [],
-    metaTitle: event.name,
-    metaDescription: event.description,
-    slug: slug,
-    enableCountdown: true,
-    enableQrReg: true,
-    enableWhatsappShare: true,
-    enableEmailCollection: true,
-    enableReferral: false,
-    enableAmbassador: false,
-    enableWaitlist: false,
-    enableAttendanceTracking: true,
-    enableCertVerification: true,
-    enableLeaderboard: false,
-    enableAnnouncements: true,
-    announcementText: "🚀 Registrations open! Complete registration today.",
-    whyParticipate: [
-      { id: "benefit-1", title: "Build Real Projects", desc: "Gain hands-on experience building working prototypes.", icon: "zap" },
-      { id: "benefit-2", title: "Network with Experts", desc: "Connect with mentors, judges, and developers.", icon: "users" },
-      { id: "benefit-3", title: "Win Cash Prizes", desc: "Cash awards and swags pool for top teams.", icon: "trophy" }
-    ],
-    timeline: [
-      { id: "time-1", date: event.date, time: "09:00 AM", title: "Event Starts", desc: "Official launch and briefing." }
-    ],
-    sponsors: [
-      { id: "spon-1", name: "Google Cloud", category: "Title Sponsor", logoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=google&radius=20&backgroundColor=6366f1" }
-    ],
-    faqs: [
-      { id: "faq-1", question: "Who is eligible to participate?", answer: "All currently enrolled university students with valid student IDs can sign up." }
-    ]
+    prizes: {
+      ...defaultWebsiteConfig.prizes,
+      ...(event.websiteConfig?.prizes || {})
+    },
+    whyParticipate: event.websiteConfig?.whyParticipate || defaultWebsiteConfig.whyParticipate,
+    timeline: event.websiteConfig?.timeline || defaultWebsiteConfig.timeline,
+    sponsors: event.websiteConfig?.sponsors || defaultWebsiteConfig.sponsors,
+    faqs: event.websiteConfig?.faqs || defaultWebsiteConfig.faqs,
+    speakers: event.websiteConfig?.speakers || defaultWebsiteConfig.speakers,
+    judges: event.websiteConfig?.judges || defaultWebsiteConfig.judges,
   };
 
   return (
