@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { useEvents, Event } from "@/components/dashboard/EventContext";
-import CreateEventWizard from "@/components/dashboard/CreateEventWizard";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   Calendar,
   Users,
@@ -60,14 +60,12 @@ export default function EventsManagementPage() {
           </p>
         </div>
 
-        <Button
-          variant="primary"
-          size="sm"
-          onClick={() => setIsWizardOpen(true)}
-          className="flex items-center gap-1.5 self-start sm:self-auto shadow-[0_4px_15px_rgba(124,58,237,0.25)]"
+        <Link
+          href="/dashboard/events/create"
+          className="inline-flex items-center justify-center font-medium rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 cursor-pointer select-none bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white border border-purple-500/20 dark:border-purple-500/30 px-4 py-2 text-xs flex items-center gap-1.5 self-start sm:self-auto shadow-[0_4px_15px_rgba(124,58,237,0.25)] hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500"
         >
           <Plus className="w-4.5 h-4.5 stroke-[2.5]" /> Create Event
-        </Button>
+        </Link>
       </div>
 
       {/* Control Panel: Filters & Search */}
@@ -129,14 +127,12 @@ export default function EventsManagementPage() {
               </p>
             </div>
 
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => setIsWizardOpen(true)}
-              className="flex items-center gap-1.5 shadow-md"
+            <Link
+              href="/dashboard/events/create"
+              className="inline-flex items-center justify-center font-medium rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 cursor-pointer select-none bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white border border-purple-500/20 dark:border-purple-500/30 px-4 py-2 text-xs flex items-center gap-1.5 shadow-md hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500"
             >
               <Plus className="w-4.5 h-4.5 stroke-[2.5]" /> Create Event
-            </Button>
+            </Link>
           </motion.div>
         ) : (
           <motion.div
@@ -260,8 +256,7 @@ export default function EventsManagementPage() {
         )}
       </AnimatePresence>
 
-      {/* CREATE EVENT FLOW MODAL */}
-      <CreateEventWizard isOpen={isWizardOpen} onClose={() => setIsWizardOpen(false)} />
+      {/* Create Event Wizard removed in favor of dedicated route */}
     </div>
   );
 }

@@ -18,10 +18,29 @@ export default function DashboardLayout({
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
 
+  const isCreateRoute = pathname === "/dashboard/events/create";
+
   // Close mobile sidebar on route change
   useEffect(() => {
     setIsMobileOpen(false);
   }, [pathname]);
+
+  if (isCreateRoute) {
+    return (
+      <EventProvider>
+        <div className="relative min-h-screen bg-slate-50 dark:bg-slate-950 flex selection:bg-purple-500/10 dark:selection:bg-purple-500/30 selection:text-foreground">
+          {/* Noise and background ambient glow elements */}
+          <div className="noise-overlay" />
+          <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] ambient-glow" />
+          <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] ambient-glow" />
+
+          <main className="flex-1 min-w-0 min-h-screen relative z-10 flex flex-col">
+            {children}
+          </main>
+        </div>
+      </EventProvider>
+    );
+  }
 
   return (
     <EventProvider>

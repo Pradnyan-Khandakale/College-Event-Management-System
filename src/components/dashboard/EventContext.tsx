@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { WebsiteConfig } from "./WebsiteBuilder";
 
 export interface Event {
   id: string;
@@ -18,6 +19,7 @@ export interface Event {
   certTemplate: string;
   isTeam: boolean;
   eventUrl?: string;
+  websiteConfig?: WebsiteConfig;
 }
 
 interface EventContextType {
