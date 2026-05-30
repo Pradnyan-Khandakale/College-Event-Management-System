@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { useEvents, Event } from "@/components/dashboard/EventContext";
-import CreateEventWizard from "@/components/dashboard/CreateEventWizard";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   Calendar,
   Users,
@@ -60,14 +60,15 @@ export default function EventsManagementPage() {
           </p>
         </div>
 
-        <Button
-          variant="primary"
-          size="sm"
-          onClick={() => setIsWizardOpen(true)}
-          className="flex items-center gap-1.5 self-start sm:self-auto shadow-[0_4px_15px_rgba(124,58,237,0.25)]"
-        >
-          <Plus className="w-4.5 h-4.5 stroke-[2.5]" /> Create Event
-        </Button>
+        <Link href="/dashboard/events/create">
+          <Button
+            variant="primary"
+            size="sm"
+            className="flex items-center gap-1.5 self-start sm:self-auto shadow-[0_4px_15px_rgba(124,58,237,0.25)]"
+          >
+            <Plus className="w-4.5 h-4.5 stroke-[2.5]" /> Create Event
+          </Button>
+        </Link>
       </div>
 
       {/* Control Panel: Filters & Search */}
@@ -129,14 +130,15 @@ export default function EventsManagementPage() {
               </p>
             </div>
 
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => setIsWizardOpen(true)}
-              className="flex items-center gap-1.5 shadow-md"
-            >
-              <Plus className="w-4.5 h-4.5 stroke-[2.5]" /> Create Event
-            </Button>
+            <Link href="/dashboard/events/create">
+              <Button
+                variant="primary"
+                size="sm"
+                className="flex items-center gap-1.5 shadow-md"
+              >
+                <Plus className="w-4.5 h-4.5 stroke-[2.5]" /> Create Event
+              </Button>
+            </Link>
           </motion.div>
         ) : (
           <motion.div
@@ -260,8 +262,7 @@ export default function EventsManagementPage() {
         )}
       </AnimatePresence>
 
-      {/* CREATE EVENT FLOW MODAL */}
-      <CreateEventWizard isOpen={isWizardOpen} onClose={() => setIsWizardOpen(false)} />
+      {/* Create Event Wizard removed in favor of dedicated route */}
     </div>
   );
 }
